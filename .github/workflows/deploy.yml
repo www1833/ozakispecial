@@ -5,13 +5,11 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# GitHub Pages 用の権限
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 同時デプロイを1つに制限
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -24,13 +22,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 20   # ← cache指定は入れない
 
-      - run: npm ci
+      - run: npm install     # ← ここを npm ci から変更
       - run: npm run build
 
-      # dist をPagesに渡す
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
